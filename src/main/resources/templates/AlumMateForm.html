@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout}">
+
+<head>
+    <style>
+        h3 {
+            font-family: "Homer Simpson UI";
+        }
+    </style>
+</head>
+
+<body layout:fragment="body">
+    <div class="container">
+
+        <div class="row pb-3 p-3">
+            <div class="col-md-6">
+                <h3>Lista de Materias</h3>
+            </div>
+        </div>
+
+
+        <table class="table table-striped table-hover">
+            <thead class="table-primary">
+                <th>Id Materia</th>
+                <th>Materia</th>
+                <th>Precio</th>
+                <th>Opciones</th>
+            </thead>
+
+            <tbody class="fw-lighter">
+                <tr th:each="materia : ${materia}">
+                    <td th:text="${materia.materia.idMateria}"></td>
+                    <td th:text="${materia.materia.nombre}"></td>
+                    <td th:text="'$' + ${materia.materia.costo} + ' MX'"></td>
+
+                    <!--<td th:each="alumno : ${alumno}">
+                        <form th:action="@{/control/AddMateriaAlu}" method="post">
+                            <input type="hidden" th:value="${alumno.idAlumno}" name="IdAlumno" />
+                            <input type="hidden" th:value="${materia.materia.idMateria}" name="IdMateria" />
+                            <button type="submit" class="btn btn-success text-center me-2">
+                                <i class="bi bi-plus-circle-fill"></i>
+                            </button>
+                        </form>
+                    </td> -->
+
+                    <td>
+                        <button class="btn btn-success text-center me-2 addMateriaButton"
+                            th:data-id-alumno="${alumno.idAlumno}" th:data-id-materia="${materia.materia.idMateria}">
+                            <i class="bi bi-plus-circle-fill"></i> Agregar
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="row pb-3 p-3">
+            <div class="col-md-6 d-flex justify-content-between align-items-center">
+                <a th:href="@{/control/AlumnoMateriaId/{IdAlumno}(IdAlumno=${alumno.idAlumno})}"
+                   class="btn btn-dark text-center me-2">
+                    <i class="bi bi-list-ol"></i> Materias
+                </a>
+        
+                <h3 class="mb-0"> 
+                    <!--<span id="totalCosto" th:text="'$' + ${SumMateria[0].TotalCosto} + ' MX'"></span>-->
+                    <span id="simbolo">$</span>
+                    <span id="monto" th:text="${SumMateria[0].TotalCosto}"></span>
+                    <span id="moneda"> MX</span>
+                </h3>
+            </div>
+        </div>
+        
+
+    </div>
+
+    <script>
+        $(document).ready(function () {
+           
+            $(".addMateriaButton").on("click", function (e) {
+                e.preventDefault(); 
+                
+                var idAlumno = $(this).data("id-alumno");
+                var idMateria = $(this).data("id-materia");
+
+                console.log(idAlumno);
+                console.log(idMateria)
+
+                $.ajax({
+                    url: "/control/AddMateriaAlu",
+                    type: "POST",
+                    data: {
+                        IdAlumno: idAlumno,
+                        IdMateria: idMateria
+                    },
+                    datatype: "JSON",
+                    success: function (result) {
+
+                        if (result.correct) {
+
+                            alert("Materia añadida con éxito!");
+                            
+                            $(e.target).closest('tr').remove();
+                            
+                            let totalCosto = result.object && result.object.length > 0 ? result.object[0].totalCosto : 0;
+
+                            // Actualizamos el monto en la interfaz con el totalCosto
+                            $('#monto').text(totalCosto.toFixed(2));
+                        
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Ocurrió un error: " + error);
+                    }
+                });
+            });
+        });
+
+       
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout}">
+
+    <head>
+        <style>
+            h3 {
+            font-family: "Homer Simpson UI";
+        }
+        </style>
+    </head>
+
+<body layout:fragment="body">
+
+    <div class="container">
+        <p></p>
+        <h3>Bienvenido Alumno</h3>
+    
+        <form th:action="@{/control/edit}" method="post" th:object="${alumno}" enctype="multipart/form-data">
+            <input type="hidden" th:field="*{IdAlumno}">
+    
+            <!--nombres y apellidos-->  
+            <div class="row pb-3">
+                <div class="col-md-6">
+                    <label for="lblNombre" class="form-label">Introduce tus nombres</label>
+                    <input type="text" class="form-control" id="txtNombre" placeholder="Nombre" onkeypress="return ValidarLetras(event)" th:field="*{Nombre}">
+                    <span id="errorNombre" class="text-danger"></span>
+                </div>
+                <!--<span class="text-danger" th:if="${#fields.hasErrors('Usuario.Nombre')}" th:errors="*{Usuario.Nombre}"></span>-->
+            </div>
+    
+            <div class="row pb-3">
+                <div class="col">
+                    <p></p>
+                    <div><P>Introduce tus apellidos </P></div>
+                    <div class="input-group">
+                        <input type="text" id="txtApellidoPaterno" class="form-control" placeholder="Apellido Paterno" onkeypress="return ValidarLetras1(event)" th:field="*{ApellidoPaterno}">
+                        <span id="errorApellidoP" class="text-danger"></span>
+                        <!--<span class="text-danger" th:if="${#fields.hasErrors('Usuario.ApellidoPaterno')}" th:errors="*{Usuario.ApellidoPaterno}"></span>-->
+                        <input type="text" id="txtApellidoMaterno" class="form-control" placeholder="Apellido Materno" onkeypress="return ValidarLetras2(event)" th:field="*{ApellidoMaterno}">
+                        <span id="errorApellidoM" class="text-danger"></span>
+                        <!--<span class="text-danger" th:if="${#fields.hasErrors('Usuario.ApellidoMaterno')}" th:errors="*{Usuario.ApellidoMaterno}"></span>-->
+                    </div>
+                </div>
+            </div>
+    
+            <p></p>
+    
+            <div class="row pb-3">
+                <div class="col-md-2">
+                    <button th:text="*{IdAlumno == 0 ? 'Agregar' : 'Actualizar'}" type="submit" class="btn btn-outline-dark"></button>
+                </div>
+            </div>
+        </form>
+    
+    </div>
+    
+    <script>
+        function ValidarLetras(event) {
+                if (/^[a-zA-Z\s]+$/.test(event.key)) {
+                    $("#errorNombre").text("");
+                    return true;
+                } else {
+                    $("#errorNombre").text("Solo letras");
+                    event.preventDefault();
+                }
+            }
+
+            function ValidarLetras1(event) {
+                if (/^[a-zA-Z\s]+$/.test(event.key)) {
+                    $("#errorApellidoP").text("");
+                    return true;
+                } else {
+                    $("#errorApellidoP").text("Solo letras");
+                    event.preventDefault();
+                }
+            }
+
+            function ValidarLetras2(event) {
+                if (/^[a-zA-Z\s]+$/.test(event.key)) {
+                    $("#errorApellidoM").text("");
+                    return true;
+                } else {
+                    $("#errorApellidoM").text("Solo letras");
+                    event.preventDefault();
+                }
+            }
+    </script>
+</body>
+</html>

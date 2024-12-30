@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout}">
+
+<body layout:fragment="body">
+
+    <div class="container">
+
+
+
+        <div class="p-3 pb-3">
+            <div class="container-fluid"></div>
+            <br>
+            <a th:if="${isAdmin}" th:href="@{/control/edit/{IdAlumno}(IdAlumno=0)}" class="btn btn-success"><i
+                    class="bi bi-person-fill-add"></i></a>
+            </br>
+        </div>
+
+        <table th:if="${isAdmin}" class="table table-striped table-hover">
+            <thead class="table-primary">
+                <!--                <th>Status</th>-->
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Opciones</th>
+            </thead>
+
+            <tbody class="fw-lighter">
+                <tr th:each="Alumno : ${alumno}">
+                    <td th:text="${Alumno.IdAlumno}"></td>
+                    <td th:text="${Alumno.Nombre}"></td>
+                    <td th:text="${Alumno.ApellidoPaterno} + ' ' + ${Alumno.ApellidoMaterno}"></td>
+
+                    <td class="d-flex justify-content-start">
+                        <a th:href="@{/control/edit/{IdAlumno}(IdAlumno=${Alumno.IdAlumno})}"
+                            class="btn btn-warning text-center me-2">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+
+                        <form th:action="@{/control/delete/{IdAlumno}(IdAlumno=${Alumno.IdAlumno})}" method="post">
+                            <button type="submit" class="btn btn-danger text-center me-2">
+                                <i class="bi bi-trash3-fill"></i>
+                            </button>
+                        </form>
+
+                        <a th:href="@{/control/AlumnoMateriaId/{IdAlumno}(IdAlumno=${Alumno.IdAlumno})}"
+                            class="btn btn-dark text-center me-2">
+                            <i class="bi bi-list-ol"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-12 col-md-4" th:each="Alumno : ${alumno}" th:if="${!isAdmin}">
+                    <div class="card text-dark bg-light mb-3" style="max-width: 50rem;">
+                        <div class="card-header">
+                            <strong>Alumno</strong>
+                        </div>
+                       <img th:src="'https://i.pinimg.com/736x/66/69/a7/6669a78d1114b0c75c618ff3f6aa2561.jpg'"
+                            class="card-img-top rounded mx-auto d-block" alt="Poster de la película" style="width: 70%; height: auto;"/>
+
+                            <!-- <img th:src="'https://i.pinimg.com/736x/34/c3/33/34c3332cb8eb6c448bb4544cd7df4bcd.jpg'"
+                            class="card-img-top rounded mx-auto d-block" alt="Poster de la película" style="width: 75%; height: auto;"/>-->
+                        
+                        <div class="card-body ">
+                            <h5 class="card-title text-center fw-light"
+                                th:text="${Alumno.Nombre} + ' ' + ${Alumno.ApellidoPaterno} + ' ' + ${Alumno.ApellidoMaterno}">
+                            </h5>
+
+                            <p></p>
+                            <p></p>
+                            <p></p>
+
+                            <div class="d-flex justify-content-center">
+                                <!-- Botón Editar -->
+                                <a th:href="@{/control/edit/{IdAlumno}(IdAlumno=${Alumno.IdAlumno})}"
+                                    class="btn btn-warning text-center me-2">
+                                    <i class="bi bi-pencil-square"></i> Editar
+                                </a>
+
+                                <!-- Botón Ver Materias -->
+                                <a th:href="@{/control/AlumnoMateriaId/{IdAlumno}(IdAlumno=${Alumno.IdAlumno})}"
+                                    class="btn btn-dark text-center me-2">
+                                    <i class="bi bi-list-ol"></i> Ver Materias
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</body>
+
+</html>

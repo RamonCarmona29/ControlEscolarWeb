@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+    
+    <head>
+        <style>
+            h3 {
+            font-family: "Homer Simpson UI";
+        }
+        </style>
+    </head>
+
+    <body layout:fragment="body">
+
+        <div class="container pb-5">
+            
+            <p></p>
+            <p></p>
+
+            <div class="row pb-3">
+                <div class="col-md-6">
+                    <h3>Materias</h3>
+                </div>
+            </div>
+
+            <div class="p-3 pb-3">
+                <div class="container-fluid"></div>
+                <br>
+                <a th:if="${isAdmin}" th:href="@{/control/editMateria/{IdMateria}(IdMateria=0)}" class="btn btn-success"><i class="bi bi-person-fill-add"></i></a>
+                </br>
+            </div>
+            
+            <table class="table table-striped table-hover">
+                <thead class="table-primary">
+                <th th:if="${isAdmin}">Id Materia</th>
+                <th>Materia</th>
+                <th>Precio</th>
+                <th th:if="${isAdmin}">Opciones</th>
+                </thead>
+
+                <tbody class="fw-lighter">
+                    <tr th:each="Materia : ${materia}">
+                        <td th:if="${isAdmin}" th:text="${Materia.IdMateria}"></td>
+                        <td th:text="${Materia.Nombre}"></td>
+                        <td th:text="'$' + ${Materia.Costo} + ' MX'"></td>
+
+                      <td th:if="${isAdmin}" class="d-flex justify-content-start">
+                          
+                          <a th:href="@{/control/editMateria/{IdMateria}(IdMateria=${Materia.IdMateria})}" 
+                             class="btn btn-dark text-center me-2"><i class="bi bi-pencil-square"></i></a>
+
+                            <form th:if="${isAdmin}" th:action="@{/control/deleteMateria/{IdMateria}(IdMateria=${Materia.IdMateria})}" method="post">
+                                <button type="submit" class="btn btn-warning text-center me-2"><i class="bi bi-trash3-fill"></i></button>
+                            </form>
+                        </td>
+
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </body>
+</html>
+

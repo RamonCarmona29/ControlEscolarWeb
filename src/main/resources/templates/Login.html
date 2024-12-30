@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+    <head>
+        <style>
+            .divider:after,
+            .divider:before {
+                content: "";
+                flex: 1;
+                height: 1px;
+                background: #eee;
+            }
+            .h-custom {
+                height: calc(100% - 73px);
+            }
+            @media (max-width: 450px) {
+                .h-custom {
+                    height: 100%;
+                }
+            }
+        </style>
+    </head>
+    <body layout:fragment="body">
+        
+        <section class="vh-100">
+            <div class="container-fluid h-custom">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <!-- Columna de imagen, ahora a la derecha -->
+                    <div class="col-md-9 col-lg-6 col-xl-5 order-md-2">
+                        <img src="https://i.pinimg.com/736x/5d/93/66/5d936624b58012c2ff53340c7b6baa31.jpg"
+                             class="img-fluid" alt="Sample image"  style="width: 92.3%; height: auto;">
+                    </div>
+
+                       <!--   <img th:src="'https://i.pinimg.com/736x/6a/6f/5e/6a6f5ea2e273d8e662a032b5f1a4c140.jpg'"
+                             class="img-fluid mx-auto d-block" alt="Poster de la película" style="width: 75%; height: auto;"/>-->
+                         
+                             <!--<img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                             class="img-fluid" alt="Sample image">-->
+        
+                    <!-- Columna de formulario, ahora a la izquierda -->
+                    <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1 order-md-1">
+                        <form th:action="@{/control/login}" method="post">
+        
+                            <div class="divider d-flex align-items-center my-4">
+                                <p class="lead fw-normal mb-0 me-3">Iniciar sesión</p>
+                            </div>
+        
+                            <!-- Email input -->
+                            <div data-mdb-input-init class="form-outline mb-4">
+                                <input type="text" class="form-control" id="txtNombre" name="nombre" placeholder="Nombre" >
+                                <label class="form-label" for="txtNombre">Nombre del Alumno</label>
+                            </div>
+        
+                            <!-- Password input -->
+                            <div data-mdb-input-init class="form-outline mb-3">
+                                <input type="text" class="form-control" id="txtApellidoPaterno" name="apellidopaterno" placeholder="Apellido Paterno" >
+                                <label class="form-label" for="txtpassword">Introduzca tu Apellido Paterno</label>
+                            </div>
+        
+                            <div class="d-flex justify-content-between align-items-center">
+                                <!-- Checkbox -->
+                                <div class="form-check mb-0">
+                                    <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3"/>
+                                    <label class="form-check-label" for="form2Example3">Recordar Contraseña</label>
+                                </div>
+                                <a href="/recuperar-contraseña" class="text-body">Olvidaste la contraseña?</a>
+                            </div>
+        
+                            <div class="text-center text-lg-start mt-4 pt-2">
+                                <button type="submit" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">Iniciar Sesión</button>
+                            </div>
+        
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
+                <!-- Copyright -->
+                <div class="text-white mb-3 mb-md-0">
+                    Copyright © 2020. All rights reserved.
+                </div>
+                <!-- Copyright -->
+
+                <!-- Right -->
+                <div>
+                    <a href="#!" class="text-white me-4">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#!" class="text-white me-4">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#!" class="text-white me-4">
+                        <i class="fab fa-google"></i>
+                    </a>
+                    <a href="#!" class="text-white">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+                <!-- Right -->
+            </div>
+        
+    </body>
+</html>

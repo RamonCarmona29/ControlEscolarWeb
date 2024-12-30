@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout}">
+
+<head>
+    <style>
+        h3 {
+            font-family: "Homer Simpson UI";
+        }
+
+        table>tbody:empty {
+            position: relative;
+            display: table-caption;
+            caption-side: bottom;
+            min-height: 50px;
+            background-color: rgb(240, 240, 240);
+            text-align: center;
+        }
+
+        table>tbody:empty:before {
+            content: 'SIN DATOS';
+            position: absolute;
+            font-size: 12px;
+            left: 0;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    </style>
+</head>
+
+<body layout:fragment="body">
+    <div class="container">
+
+        <p></p>
+        <p></p>
+
+        <div class="col-md-6">
+            <h3 th:each="alumnoMateria, iterStat : ${alumnoMateria}">
+                <!-- Mostrar la información del alumno solo en el encabezado de la primera fila del grupo -->
+                <span th:if="${iterStat.index == 0}">
+                    <input type="hidden" name="alumnoId" th:value="${alumnoMateria.alumno.IdAlumno}" />
+                    <!-- <span th:text="${alumnoMateria.alumno.IdAlumno}"></span> -->
+                    <span th:text="${alumnoMateria.alumno.Nombre}"></span>
+                    <span th:text="${alumnoMateria.alumno.ApellidoPaterno}"></span>
+                    <span th:text="${alumnoMateria.alumno.ApellidoMaterno}"></span>
+                </span>
+            </h3>
+        </div>
+
+        <div class="col-md-6 p-3 pb-3">
+            <a th:href="@{/control/AlumnoMateriaForm/{IdAlumno}(IdAlumno=${alumnoMateria[0].alumno.IdAlumno})}"
+                class="btn btn-success mt-3">
+                <i class="bi bi-person-fill-add"></i> Agregar Materia
+            </a>
+        </div>
+
+        <p></p>
+        <p></p>
+
+        <table class="table table-striped table-hover justify-content-start">
+            <thead class="table-primary">
+                <th>Id Materia</th>
+                <th>Materia</th>
+                <th>Precio</th>
+                <th>Eliminar Materia</th>
+            </thead>
+
+            <tbody class="fw-lighter" id="materiaList">
+                <tr th:each="alumnoMateria : ${alumnoMateria}">
+                    <td th:text="${alumnoMateria.materia.IdMateria}"></td>
+                    <td th:text="${alumnoMateria.materia.Nombre}"></td>
+                    <td th:text="'$' + ${alumnoMateria.materia.Costo} + ' MX'"></td>
+                    <td>
+                        <button type="button" class="btn btn-danger text-center deleteMateriaBtn"
+                            th:data-id="${alumnoMateria.IdAlumnoMaterias}">
+                            <i class="bi bi-trash3-fill"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="col-md-6">
+            <h3>
+                <!--<span id="totalCosto" th:text="'$' + ${SumMateria[0].TotalCosto} + ' MX'"></span>-->
+                <span id="simbolo">$</span>
+                <span id="monto" th:text="${SumMateria[0].TotalCosto}"></span>
+                <span id="moneda"> MX</span>
+            </h3>
+        </div>
+
+
+
+    </div>
+
+    <script>
+        $(document).ready(function () {
+
+            $('.deleteMateriaBtn').click(function () {
+                var IdAlumnoMaterias = $(this).data('id');
+                console.log(IdAlumnoMaterias);
+                var IdAlumno = $("input[name='alumnoId']").val();
+                console.log(IdAlumno);
+
+
+                $.ajax({
+                    url: "/control/deleteMateria/" + IdAlumnoMaterias + "?IdAlumno=" + IdAlumno,
+                    datatype: "JSON",
+                    type: "GET",
+                    success: function (result) {
+                        if (result.correct) {
+                            alert('Se Elimino tu materia');
+                            $('button[data-id="' + IdAlumnoMaterias + '"]').closest('tr').remove();
+
+                            let totalCosto = result.object && result.object.length > 0 ? result.object[0].totalCosto : 0;
+
+                            // Actualizamos el monto en la interfaz con el totalCosto
+                            $('#monto').text(totalCosto.toFixed(2));
+                        }
+                    },
+                    error: function () {
+                        alert("An error occurred while deleting the record." + response.message);
+                        console.log("Error");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

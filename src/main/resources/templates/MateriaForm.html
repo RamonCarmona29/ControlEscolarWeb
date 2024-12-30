@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout}">
+
+    <head>
+        <style>
+            h3 {
+            font-family: "Homer Simpson UI";
+        }
+        </style>
+    </head>
+
+<body layout:fragment="body">
+
+    <div class="container">
+        <p></p>
+        <h3>Nueva Materia</h3>
+    
+        <form th:action="@{/control/editMaterias}" method="post" th:object="${materia}" enctype="multipart/form-data">
+            <input type="hidden" th:field="*{IdMateria}">
+     
+            <div class="row pb-3">
+                <div class="col-md-6">
+                    <label for="lblNombre" class="form-label">Introduce la Materia</label>
+                    <input type="text" class="form-control" id="txtMateria" placeholder="Nombre de la materia" onkeypress="return ValidarLetras(event)" th:field="*{Nombre}">
+                    <span id="errorNombre" class="text-danger"></span>
+                </div>
+              </div>
+    
+              <div class="row pb-3">
+                <div class="col-md-6">
+                    <label for="lblNombre" class="form-label">Introduce tus nombres</label>
+                    <input type="text" class="form-control" id="txtCosto" placeholder="Costo de la materia" th:field="*{Costo}">
+                    <span id="errorNombre" class="text-danger"></span>
+                </div>
+              </div>
+    
+            <p></p>
+    
+            <div class="row pb-3">
+                <div class="col-md-2">
+                    <button th:text="*{IdMateria == 0 ? 'Agregar' : 'Actualizar'}" type="submit" class="btn btn-outline-dark"></button>
+                </div>
+            </div>
+        </form>
+    
+    </div>
+    
+    <script>
+        function ValidarLetras(event) {
+                if (/^[a-zA-Z\s]+$/.test(event.key)) {
+                    $("#errorNombre").text("");
+                    return true;
+                } else {
+                    $("#errorNombre").text("Solo letras");
+                    event.preventDefault();
+                }
+            }
+
+    </script>
+</body>
+</html>
